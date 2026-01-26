@@ -1,0 +1,23 @@
+.image {
+  display: block;
+  max-height: 120px;
+  max-width: 240px;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+}
+
+.price {
+  align-items: center;
+  display: flex;
+  font-size: 28px;
+  gap: 9px;
+  line-height: 24px;
+}
+.name {
+  max-width: 272px;
+  min-height: 48px;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+}

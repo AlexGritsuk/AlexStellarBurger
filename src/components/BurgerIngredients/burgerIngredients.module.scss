@@ -1,0 +1,43 @@
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.part {
+  height: 500px;
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  list-style: none;
+  margin: 40px 0 0;
+  padding: 0;
+  max-height: calc(100dvh - 360px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+.ingredients::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ingredients::-webkit-scrollbar-track {
+  background: #2f2f37;
+  margin-bottom: 40px;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.ingredients__column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
