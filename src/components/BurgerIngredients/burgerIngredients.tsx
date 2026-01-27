@@ -7,7 +7,7 @@ import style from "./burgerIngredients.module.scss";
 import Tabs from "../tabs/tabs";
 
 import { TABS, ingredientTabs } from "../../utils/vars";
-import type { IIngredients, TabShape } from "../../utils/types";
+import type { IIngredient, TabShape } from "../../utils/types";
 import {
   getAllIngredients,
   getIngredientsLoading,
@@ -28,7 +28,7 @@ const BurgerIngredients = () => {
   const dispatch = useAppDispatch();
 
   const ingredients = useAppSelector(getAllIngredients);
-  const isLoading = useAppSelector(getIngredientsLoading);
+  const isLoading = useAppSelector(getIngredientsLoading);  
 
   useEffect(() => {
     if (ingredients.length === 0) {
@@ -65,7 +65,7 @@ const BurgerIngredients = () => {
   );
 
   const filteredIngredients = useMemo(() => {
-    return ingredients.reduce<Record<string, IIngredients[]>>((acc, item) => {
+    return ingredients.reduce<Record<string, IIngredient[]>>((acc, item) => {
       (acc[item.type] ??= []).push(item);
       return acc;
     }, {});

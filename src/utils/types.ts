@@ -1,4 +1,4 @@
-export interface IIngredients {
+export interface IIngredient {
   _id: string;
   name: string;
   type: "bun" | "main" | "sauce";
@@ -17,7 +17,7 @@ export interface IIngredients {
 
 export interface IIngredientsResponse {
   success: boolean;
-  data: IIngredients[];
+  data: IIngredient[];
 }
 
 export interface TabShape {

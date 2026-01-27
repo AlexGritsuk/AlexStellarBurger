@@ -1,9 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { IIngredients } from "../../utils/types";
+import type { IIngredient } from "../../utils/types";
 import { fetchIngredients } from "./asyncThunk/fetchIngredients";
 
 interface IIngredientsState {
-  ingredients: IIngredients[];
+  ingredients: IIngredient[]; 
   isLoading: boolean;
   error: string | null | undefined;
 }
@@ -26,7 +26,7 @@ const ingredientsSlice = createSlice({
       })
       .addCase(
         fetchIngredients.fulfilled,
-        (state, action: PayloadAction<IIngredients[]>) => {
+        (state, action: PayloadAction<IIngredient[]>) => {
           state.isLoading = false;
           state.ingredients = action.payload;
         }

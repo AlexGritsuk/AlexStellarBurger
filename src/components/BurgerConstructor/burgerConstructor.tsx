@@ -13,7 +13,7 @@ const BurgerConstructor = () => {
           isLocked={true}
           text="Краторная булка N-210i (верх)"
           price={200}
-          thumbnail="https://code.s3.yandex.net"
+          thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
         />
       </div>
       <ul className={`${style.list} custom-scroll`}>
@@ -24,7 +24,7 @@ const BurgerConstructor = () => {
           <ConstructorElement
             text="Филе люминесцентного тетраодона"
             price={300}
-            thumbnail="https://code.s3.yandex.net"
+            thumbnail="https://code.s3.yandex.net/react/code/meat-03.png"
           />
         </li>
       </ul>
@@ -34,7 +34,7 @@ const BurgerConstructor = () => {
           isLocked={true}
           text="Краторная булка N-210i (низ)"
           price={200}
-          thumbnail="https://code.s3.yandex.net"
+          thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
         />
       </div>
       <div className={`${style.total} mt-10`}>
