@@ -8,10 +8,6 @@ import Tabs from "../tabs/tabs";
 
 import { TABS, ingredientTabs } from "../../utils/vars";
 import type { IIngredient, TabShape } from "../../utils/types";
-import {
-  getAllIngredients,
-  getIngredientsLoading,
-} from "../../services/slices/ingredientsSlice";
 import { fetchIngredients } from "../../services/slices/asyncThunk/fetchIngredients";
 import IngredientsContainer from "./ingredientsContainer/ingredientsContainer";
 import Ingredient from "./ingredient/ingredient";
@@ -21,14 +17,18 @@ const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = useState(TABS.BUN);
   const [isScrollable, setIsScrollable] = useState(true);
 
-  const [bunsRef, inViewBuns] = useInView({ threshold: 0.2 });
+  const [bunsRef, inViewBuns] = useInView({ threshold: 0.2 }); // Для табов
   const [saucesRef, inViewSauces] = useInView({ threshold: 0.2 });
   const [mainsRef, inViewMain] = useInView({ threshold: 0.2 });
 
   const dispatch = useAppDispatch();
 
-  const ingredients = useAppSelector(getAllIngredients);
-  const isLoading = useAppSelector(getIngredientsLoading);  
+  const { ingredients, isLoading } = useAppSelector(
+    (state) => state.ingredients
+  );
+
+  console.log(ingredients);
+  
 
   useEffect(() => {
     if (ingredients.length === 0) {

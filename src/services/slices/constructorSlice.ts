@@ -1,9 +1,4 @@
-import {
-  createSlice,
-  type PayloadAction,
-  nanoid,
-  combineSlices,
-} from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction, nanoid } from "@reduxjs/toolkit";
 import type { IIngredient } from "../../utils/types";
 
 export interface IConstructorIngredient extends IIngredient {
@@ -20,7 +15,7 @@ const initialState: IConstructorState = {
   ingredients: [],
 };
 
-const constructorSlice = createSlice({
+const constructorSlice = createSlice({ 
   name: "burgerConstructor",
   initialState,
   reducers: {

@@ -1,0 +1,17 @@
+.empty_element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2f2f37;
+  height: 80px;
+  border: 2px dashed #4c4cff;
+  border-radius: 40px;
+  color: #8585ad;
+}
+
+.empty_top {
+  border-radius: 40px 40px 10px 10px;
+}
+.empty_bottom {
+  border-radius: 10px 10px 40px 40px;
+}

@@ -1,15 +1,28 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import type { IIngredients } from "../../../utils/types";
+import type { IIngredient } from "../../../utils/types";
 import style from "./ingredient.module.scss";
+import { useDrag } from "react-dnd";
 import clsx from "clsx";
 
 type Props = {
-  ingredient: IIngredients;
+  ingredient: IIngredient;
 };
 
 const Ingredient = ({ ingredient }: Props) => {
+  const [{ isDragging }, dragRef] = useDrag({
+    type: "ingredient",
+    item: ingredient,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
   return (
-    <li>
+    <li
+      ref={(node) => {
+        dragRef(node);
+      }}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
+    >
       <picture>
         <img
           src={ingredient.image}
