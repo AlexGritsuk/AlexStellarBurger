@@ -20,33 +20,37 @@ export const ConstructorItem = ({ item, index }: Props) => {
   const ref = useRef<HTMLLIElement>(null);
 
   // 1. Логика перетаскивания (Drag)
-  const [, drag] = useDrag({
+  const [{ isDragging }, dragRef] = useDrag({
     type: "sort_item",
-    item: { index }, // Передаем текущий индекс элемента
+    item: { index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(), // Вытаскиваем флаг "тянем ли мы сейчас этот элемент"
+    }),
   });
 
   // 2. Логика наведения (Drop/Hover)
-  const [, drop] = useDrop({
+  const [, dropRef] = useDrop({
     accept: "sort_item",
-    hover: (draggedItem: { index: number }, monitor) => {
+    hover: (draggedItem: { index: number }) => {
       if (!ref.current) return;
       const dragIndex = draggedItem.index;
       const hoverIndex = index;
-
-      // Если навели на самого себя — ничего не делаем
       if (dragIndex === hoverIndex) return;
 
       dispatch(moveIngredient({ dragIndex, hoverIndex }));
-
       draggedItem.index = hoverIndex;
     },
   });
 
   // Объединяем рефы для одного элемента li
-  drag(drop(ref));
+  dragRef(dropRef(ref));
 
   return (
-    <li className={style.item} ref={ref}>
+    <li
+      className={style.item}
+      ref={ref}
+      style={{ opacity: isDragging ? 0.1 : 1, cursor: "move" }}
+    >
       <div className={style.drag_handle}>
         <DragIcon type="Primary" />
       </div>

@@ -3,8 +3,6 @@ import style from "./App.module.scss";
 import HomePage from "./pages/homePage/homePage";
 
 export const App = () => {
-  
-
   return (
     <div className={style.app}>
       <AppHeader />

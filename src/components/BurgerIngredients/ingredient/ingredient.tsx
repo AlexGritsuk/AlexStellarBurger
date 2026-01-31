@@ -6,9 +6,10 @@ import clsx from "clsx";
 
 type Props = {
   ingredient: IIngredient;
+  onClick?: any;
 };
 
-const Ingredient = ({ ingredient }: Props) => {
+const Ingredient = ({ ingredient, onClick }: Props) => {
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
     item: ingredient,
@@ -22,6 +23,7 @@ const Ingredient = ({ ingredient }: Props) => {
         dragRef(node);
       }}
       style={{ opacity: isDragging ? 0.5 : 1 }}
+      onClick={onClick}
     >
       <picture>
         <img

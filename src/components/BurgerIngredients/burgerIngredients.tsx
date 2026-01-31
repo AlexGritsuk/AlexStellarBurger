@@ -11,8 +11,13 @@ import type { IIngredient, TabShape } from "../../utils/types";
 import { fetchIngredients } from "../../services/slices/asyncThunk/fetchIngredients";
 import IngredientsContainer from "./ingredientsContainer/ingredientsContainer";
 import Ingredient from "./ingredient/ingredient";
+import Modal from "../modals/modal/modal";
+import IngredientDetails from "../modals/ingredientDetails/ingredientDetails";
 
 const BurgerIngredients = () => {
+  const { ingredients, isLoading } = useAppSelector(
+    (state) => state.ingredients
+  );
   const [tabs] = useState<TabShape[]>(ingredientTabs);
   const [currentTab, setCurrentTab] = useState(TABS.BUN);
   const [isScrollable, setIsScrollable] = useState(true);
@@ -21,14 +26,18 @@ const BurgerIngredients = () => {
   const [saucesRef, inViewSauces] = useInView({ threshold: 0.2 });
   const [mainsRef, inViewMain] = useInView({ threshold: 0.2 });
 
+  const [currentIngredient, setCurrentIngredient] =
+    useState<IIngredient | null>(null);
+
+  const closeModal = () => setCurrentIngredient(null);
+
+  const handleIngredientClick = (ingredient: IIngredient) => {
+    setCurrentIngredient(ingredient);
+  };
+
   const dispatch = useAppDispatch();
 
-  const { ingredients, isLoading } = useAppSelector(
-    (state) => state.ingredients
-  );
-
   console.log(ingredients);
-  
 
   useEffect(() => {
     if (ingredients.length === 0) {
@@ -83,7 +92,11 @@ const BurgerIngredients = () => {
         <li>
           <IngredientsContainer title={"Булки"} type={TABS.BUN} ref={bunsRef}>
             {filteredIngredients.bun?.map((item) => (
-              <Ingredient ingredient={item} key={item._id} />
+              <Ingredient
+                ingredient={item}
+                key={item._id}
+                onClick={() => handleIngredientClick(item)}
+              />
             ))}
           </IngredientsContainer>
         </li>
@@ -94,7 +107,11 @@ const BurgerIngredients = () => {
             ref={saucesRef}
           >
             {filteredIngredients.sauce?.map((item) => (
-              <Ingredient ingredient={item} key={item._id} />
+              <Ingredient
+                ingredient={item}
+                key={item._id}
+                onClick={() => handleIngredientClick(item)}
+              />
             ))}
           </IngredientsContainer>
         </li>
@@ -105,11 +122,20 @@ const BurgerIngredients = () => {
             ref={mainsRef}
           >
             {filteredIngredients.main?.map((item) => (
-              <Ingredient ingredient={item} key={item._id} />
+              <Ingredient
+                ingredient={item}
+                key={item._id}
+                onClick={() => handleIngredientClick(item)}
+              />
             ))}
           </IngredientsContainer>
         </li>
       </ul>
+      {currentIngredient && (
+        <Modal onClose={closeModal}>
+          <IngredientDetails ingredient={currentIngredient} />
+        </Modal>
+      )}
     </section>
   );
 };
