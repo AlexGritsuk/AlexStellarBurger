@@ -3,13 +3,15 @@ import type { IIngredient } from "../../../utils/types";
 import style from "./ingredient.module.scss";
 import { useDrag } from "react-dnd";
 import clsx from "clsx";
+import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
 type Props = {
   ingredient: IIngredient;
   onClick?: any;
+  count?: number;
 };
 
-const Ingredient = ({ ingredient, onClick }: Props) => {
+const Ingredient = ({ ingredient, onClick, count }: Props) => {
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
     item: ingredient,
@@ -22,9 +24,13 @@ const Ingredient = ({ ingredient, onClick }: Props) => {
       ref={(node) => {
         dragRef(node);
       }}
+      className={style.ingredient}
       style={{ opacity: isDragging ? 0.5 : 1 }}
       onClick={onClick}
     >
+      {count && count > 0 && (
+        <Counter count={count} size="default" extraClass="m-1" />
+      )}
       <picture>
         <img
           src={ingredient.image}

@@ -1,17 +1,17 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burgerConstructor.module.scss";
-import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useState } from "react";
 import { useDrop } from "react-dnd";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorEmpty from "./constructorEmpty/constructorEmpty";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 import type { IIngredient } from "../../utils/types";
-import {
-  addIngredient,
-  removeIngredient,
-} from "../../services/slices/constructorSlice";
+import { addIngredient } from "../../services/slices/constructorSlice";
 import { ConstructorItem } from "./constructorItem/constructorItem";
+import { postOrder } from "../../services/slices/asyncThunk/postOrder";
+import Modal from "../modals/modal/modal";
+import OrderDetails from "../modals/orderDetails/orderDetails";
 
 const BurgerConstructor = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +19,7 @@ const BurgerConstructor = () => {
     (state) => state.burgerConstructor
   );
 
-  console.log(ingredients);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
@@ -30,6 +30,23 @@ const BurgerConstructor = () => {
       isHover: monitor.isOver(),
     }),
   });
+
+  const handleOrderClick = () => {
+    if (!bun) return;
+
+    const orderData = [
+      bun._id,
+      ...ingredients.map((item) => item._id),
+      bun._id,
+    ];
+    dispatch(postOrder(orderData));
+    setIsOrderModalOpen(true);
+  };
+
+  const closeModal = () => setIsOrderModalOpen(false);
+
+  const totalPrice =
+    (bun ? bun.price * 2 : 0) + ingredients.reduce((s, i) => s + i.price, 0);
 
   return (
     <section
@@ -84,14 +101,30 @@ const BurgerConstructor = () => {
 
       {/* Подвал */}
       <div className={`${style.total} mt-10`}>
-        <div className={`${style.price} mr-10`}>
-          <span className="text text_type_digits-medium mr-2">600</span>
-          <CurrencyIcon type="primary" />
+        <div className={style.floor}>
+          <div className={`${style.price} mr-10`}>
+            <span className="text text_type_digits-medium mr-2">
+              {totalPrice}
+            </span>
+            <CurrencyIcon type="primary" />
+          </div>
+          <Button
+            htmlType="button"
+            type="primary"
+            size="large"
+            onClick={handleOrderClick}
+            disabled={!bun}
+          >
+            Оформить заказ
+          </Button>
         </div>
-        <Button htmlType="button" type="primary" size="large">
-          Оформить заказ
-        </Button>
       </div>
+
+      {isOrderModalOpen && (
+        <Modal onClose={closeModal}>
+          <OrderDetails />
+        </Modal>
+      )}
     </section>
   );
 };

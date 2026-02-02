@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 
@@ -13,31 +13,52 @@ import IngredientsContainer from "./ingredientsContainer/ingredientsContainer";
 import Ingredient from "./ingredient/ingredient";
 import Modal from "../modals/modal/modal";
 import IngredientDetails from "../modals/ingredientDetails/ingredientDetails";
+import {
+  clearCurrentIngredient,
+  setCurrentIngredient,
+  setTab,
+} from "../../services/slices/ingredientsSlice";
 
 const BurgerIngredients = () => {
-  const { ingredients, isLoading } = useAppSelector(
-    (state) => state.ingredients
-  );
+  const dispatch = useAppDispatch();
+  const { ingredients, isLoading, currentIngredient, currentTab } =
+    useAppSelector((state) => state.ingredients);
   const [tabs] = useState<TabShape[]>(ingredientTabs);
-  const [currentTab, setCurrentTab] = useState(TABS.BUN);
+  const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [isScrollable, setIsScrollable] = useState(true);
 
-  const [bunsRef, inViewBuns] = useInView({ threshold: 0.2 }); // Для табов
+  const [bunsRef, inViewBuns] = useInView({ threshold: 0.2 });
   const [saucesRef, inViewSauces] = useInView({ threshold: 0.2 });
   const [mainsRef, inViewMain] = useInView({ threshold: 0.2 });
 
-  const [currentIngredient, setCurrentIngredient] =
-    useState<IIngredient | null>(null);
+  const { bun, ingredients: constructorIngredients } = useAppSelector(
+    (state) => state.burgerConstructor
+  );
 
-  const closeModal = () => setCurrentIngredient(null);
+  const counters = useMemo(() => {
+    const count: Record<string, number> = {};
+
+    // Считаем начинки
+    constructorIngredients.forEach((item) => {
+      if (!count[item._id]) count[item._id] = 0;
+      count[item._id]++;
+    });
+
+    // Считаем булки (если выбрана, то их всегда 2)
+    if (bun) {
+      count[bun._id] = 2;
+    }
+
+    return count;
+  }, [bun, constructorIngredients]);
 
   const handleIngredientClick = (ingredient: IIngredient) => {
-    setCurrentIngredient(ingredient);
+    dispatch(setCurrentIngredient(ingredient));
   };
 
-  const dispatch = useAppDispatch();
-
-  console.log(ingredients);
+  const closeModal = () => {
+    dispatch(clearCurrentIngredient());
+  };
 
   useEffect(() => {
     if (ingredients.length === 0) {
@@ -48,29 +69,41 @@ const BurgerIngredients = () => {
   useEffect(() => {
     if (isScrollable) {
       if (inViewBuns) {
-        setCurrentTab(TABS.BUN);
+        dispatch(setTab(TABS.BUN));
       } else if (inViewSauces) {
-        setCurrentTab(TABS.SAUCE);
+        dispatch(setTab(TABS.SAUCE));
       } else if (inViewMain) {
-        setCurrentTab(TABS.MAIN);
+        dispatch(setTab(TABS.MAIN));
       }
     }
   }, [inViewBuns, inViewMain, inViewSauces, isScrollable]);
 
   const scrollToId = useCallback((tab: string) => {
     const element = document.getElementById(tab);
-    if (element) {
+    const container = scrollContainerRef.current;
+
+    if (element && container) {
       setIsScrollable(false);
       element.scrollIntoView({ behavior: "smooth" });
+
+      const handleScrollEnd = () => {
+        setIsScrollable(true);
+        container.removeEventListener("scrollend", handleScrollEnd);
+      };
+
+      if ("onscrollend" in window) {
+        container.addEventListener("scrollend", handleScrollEnd);
+      } else {
+        setTimeout(() => setIsScrollable(true), 600);
+      }
     }
   }, []);
-
   const handleTabClick = useCallback(
     (value: string) => {
-      setCurrentTab(value);
+      dispatch(setTab(value));
       scrollToId(value);
     },
-    [scrollToId]
+    [scrollToId, dispatch]
   );
 
   const filteredIngredients = useMemo(() => {
@@ -83,12 +116,12 @@ const BurgerIngredients = () => {
   if (isLoading) return <p>Загрузка...</p>;
 
   return (
-    <section className={clsx(style.section, "mt-10")}>
+    <section className={clsx(style.section)}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
 
       <Tabs changeTab={handleTabClick} currentTab={currentTab} tabs={tabs} />
 
-      <ul className={style.ingredients}>
+      <ul className={style.ingredients} ref={scrollContainerRef}>
         <li>
           <IngredientsContainer title={"Булки"} type={TABS.BUN} ref={bunsRef}>
             {filteredIngredients.bun?.map((item) => (
@@ -96,6 +129,7 @@ const BurgerIngredients = () => {
                 ingredient={item}
                 key={item._id}
                 onClick={() => handleIngredientClick(item)}
+                count={counters[item._id]}
               />
             ))}
           </IngredientsContainer>
@@ -111,6 +145,7 @@ const BurgerIngredients = () => {
                 ingredient={item}
                 key={item._id}
                 onClick={() => handleIngredientClick(item)}
+                count={counters[item._id]}
               />
             ))}
           </IngredientsContainer>
@@ -126,6 +161,7 @@ const BurgerIngredients = () => {
                 ingredient={item}
                 key={item._id}
                 onClick={() => handleIngredientClick(item)}
+                count={counters[item._id]}
               />
             ))}
           </IngredientsContainer>

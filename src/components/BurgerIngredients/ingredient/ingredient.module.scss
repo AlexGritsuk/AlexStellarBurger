@@ -1,3 +1,10 @@
+.ingredient {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
 .image {
   display: block;
   max-height: 120px;
@@ -6,7 +13,6 @@
   object-position: center;
   width: 100%;
 }
-
 .price {
   align-items: center;
   display: flex;

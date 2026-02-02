@@ -8,16 +8,25 @@
   border-radius: 40px;
   z-index: 1000;
   min-width: 600px;
+  /* Добавляем внутренние отступы, чтобы контент не прилипал к краям */
+  padding: 40px;
 }
-
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  width: 100%;
 }
-
 .close_button {
+  position: absolute;
+  top: 40px;
+  right: 40px; 
   background: transparent;
   border: none;
   cursor: pointer;
+  z-index: 10;
+}
+
+.close_button:hover {
+  opacity: 0.6;
 }

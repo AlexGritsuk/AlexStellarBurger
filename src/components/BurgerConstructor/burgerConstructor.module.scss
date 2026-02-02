@@ -6,6 +6,9 @@
   border: 2px solid transparent;
   transition: all 0.3s ease;
 
+    height: calc(100vh - 280px); 
+  position: relative;
+
   &.onHover {
     border: 2px dashed #4c4cff;
     background-color: rgba(76, 76, 255, 0.05);
@@ -33,14 +36,27 @@
 }
 
 .total {
+  position: sticky;
+  bottom: 20px;
+  margin-top: auto; 
+  
+  
+  background-color: #131316; 
+  padding: 20px 0;
+  
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  z-index: 10;
 
   .price {
     display: flex;
     align-items: center;
   }
+}
+
+.floor {
+  display: flex;
 }
 
 .empty_ingredients {

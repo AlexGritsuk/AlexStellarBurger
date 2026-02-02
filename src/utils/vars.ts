@@ -10,7 +10,7 @@ export const SERVER_CONFIG = {
 };
 
 export const URL_API = "https://norma.education-services.ru/api/ingredients";
-
+export const URL_API_ORDERS = "https://norma.education-services.ru/api/orders";
 
 export const ingredientTabs = [
   {

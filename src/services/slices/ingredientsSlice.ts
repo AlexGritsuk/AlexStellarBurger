@@ -1,23 +1,37 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { IIngredient } from "../../utils/types";
+import type { IIngredient, TabShape } from "../../utils/types";
 import { fetchIngredients } from "./asyncThunk/fetchIngredients";
 
 interface IIngredientsState {
-  ingredients: IIngredient[]; 
+  ingredients: IIngredient[];
   isLoading: boolean;
+  currentIngredient: IIngredient | null;
+  currentTab: string;
   error: string | null | undefined;
 }
 
 const initialState: IIngredientsState = {
   ingredients: [],
   isLoading: false,
+  currentIngredient: null,
+  currentTab: "bun",
   error: null,
 };
 
 const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentIngredient: (state, action: PayloadAction<IIngredient>) => {
+      state.currentIngredient = action.payload;
+    },
+    clearCurrentIngredient: (state) => {
+      state.currentIngredient = null;
+    },
+    setTab: (state, action: PayloadAction<string>) => {
+        state.currentTab = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchIngredients.pending, (state) => {
@@ -43,7 +57,10 @@ export const getIngredientsState = (state: {
 }) => state.ingredients;
 export const getAllIngredients = (state: { ingredients: IIngredientsState }) =>
   state.ingredients.ingredients;
-export const getIngredientsLoading = (state: { ingredients: IIngredientsState }) =>
-  state.ingredients.isLoading;
+export const getIngredientsLoading = (state: {
+  ingredients: IIngredientsState;
+}) => state.ingredients.isLoading;
 
+export const { setCurrentIngredient, clearCurrentIngredient, setTab } =
+  ingredientsSlice.actions;
 export default ingredientsSlice.reducer;

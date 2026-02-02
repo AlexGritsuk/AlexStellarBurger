@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { URL_API } from "../../../utils/vars";
-import type { IIngredients} from "../../../utils/types";
+import type { IIngredient} from "../../../utils/types";
 
 
 
 //1, create thunk
 export const fetchIngredients = createAsyncThunk<
-  IIngredients[],
+  IIngredient[],
   void,
   { rejectValue: string }
 >(

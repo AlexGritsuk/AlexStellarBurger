@@ -6,11 +6,13 @@ import {
 } from "react-redux";
 import ingredientsReducer from "./slices/ingredientsSlice";
 import constructorReducer from "./slices/constructorSlice";
+import orderSlice from "./slices/orderSlice";
 
 export const store = configureStore({
   reducer: {
     ingredients: ingredientsReducer,
     burgerConstructor: constructorReducer,
+    order: orderSlice
   },
 });
 
