@@ -35,17 +35,17 @@ const BurgerIngredients = () => {
     (state) => state.burgerConstructor
   );
 
+ 
+  
   const counters = useMemo(() => {
     const count: Record<string, number> = {};
-
-    // Считаем начинки
+   
     constructorIngredients.forEach((item) => {
       if (!count[item._id]) count[item._id] = 0;
       count[item._id]++;
     });
 
-    // Считаем булки (если выбрана, то их всегда 2)
-    if (bun) {
+        if (bun) {
       count[bun._id] = 2;
     }
 

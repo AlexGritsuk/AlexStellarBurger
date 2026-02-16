@@ -9,20 +9,23 @@ type TModalProps = {
   children: ReactNode;
   onClose: () => void;
 };
-
+const modalRoot = document.getElementById("modals");
 const Modal = ({
   title,
   children,
   onClose,
 }: TModalProps): React.ReactElement | null => {
-  const modalRoot = document.getElementById("modals");
   if (!modalRoot) return null;
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
+    document.body.style.overflow = "hidden";
     document.addEventListener("keydown", handleEsc);
-    return () => document.removeEventListener("keydown", handleEsc);
+    return () => {
+      document.body.style.overflow = "unset";
+      document.removeEventListener("keydown", handleEsc);
+    };
   }, [onClose]);
 
   return createPortal(

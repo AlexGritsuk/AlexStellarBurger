@@ -1,6 +1,7 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import type { TabShape } from "../../utils/types";
 import style from "./tabs.module.scss";
+import React from "react";
 
 type Props = {
   changeTab: (currentTab: string) => void;
@@ -8,7 +9,7 @@ type Props = {
   tabs: TabShape[];
 };
 
-const Tabs = ({ changeTab, currentTab, tabs }: Props) => {
+const Tabs = React.memo(({ changeTab, currentTab, tabs }: Props) => {
   return (
     <ul className={style.list}>
       {tabs.map((tab) => (
@@ -24,6 +25,6 @@ const Tabs = ({ changeTab, currentTab, tabs }: Props) => {
       ))}
     </ul>
   );
-};
+});
 
 export default Tabs;

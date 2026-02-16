@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 120px;
+}
+
+.content {
+  display: flex;
+  max-width: 900px;
+  width: 100%;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+}
+
+.link {
+  text-decoration: none;
+  padding: 15px 0;
+  display: block;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.active {
+  color: #f2f2f3;
+}
+
+.logout {
+  padding-left: 0;
+}
+
+.form {
+  width: 480px;
+}

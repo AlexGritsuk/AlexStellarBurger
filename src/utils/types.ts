@@ -24,3 +24,36 @@ export interface TabShape {
   name: string;
   type: string;
 }
+
+export interface IUserResponse {
+  success: boolean;
+  user: {
+    email: string;
+    name: string;
+    password?: string;
+  };
+}
+
+export interface IUser {
+  email: string;
+  name: string;
+  password?: string;
+}
+
+export interface IResponse {
+  success: boolean;
+  message?: string;
+}
+
+export interface IUserResponse extends IResponse {
+  user: IUser;
+}
+
+export interface ILoginResponse extends IUserResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface IOrderResponse extends IResponse {
+  order: { number: number };
+}
