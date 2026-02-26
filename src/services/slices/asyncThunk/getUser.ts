@@ -13,7 +13,7 @@ export function getCookie(name: string) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export const getUser = createAsyncThunk("user/getUser", async () => {  
+export const getUser = createAsyncThunk("user/getUser", async () => {
   return await fetchWithRefresh<IUserResponse>("/auth/user", {
     method: "GET",
     headers: {

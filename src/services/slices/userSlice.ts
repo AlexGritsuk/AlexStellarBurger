@@ -2,6 +2,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { IUser } from "../../utils/types";
 import { updateUser } from "./asyncThunk/updateUser";
+import { getUser } from "./asyncThunk/getUser";
 
 interface IUserState {
   data: IUser | null;
@@ -27,10 +28,18 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.data = action.payload.user;
+        state.isAuthChecked = true;
+      })
+      .addCase(getUser.rejected, (state) => {
+        state.data = null;
+        state.isAuthChecked = true;
+      })
       .addCase(updateUser.fulfilled, (state, action) => {
-       
         if (action.payload.success) {
-          state.data = action.payload.user; 
+          state.data = action.payload.user;
         }
       })
       .addCase(updateUser.rejected, (state, action) => {

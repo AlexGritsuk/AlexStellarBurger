@@ -1,3 +1,8 @@
+import type {
+  ActionCreatorWithPayload,
+  ActionCreatorWithoutPayload,
+} from "@reduxjs/toolkit";
+
 export interface IIngredient {
   _id: string;
   name: string;
@@ -56,4 +61,36 @@ export interface ILoginResponse extends IUserResponse {
 
 export interface IOrderResponse extends IResponse {
   order: { number: number };
+}
+
+export type TWSActionTypes = {
+  wsConnect: ActionCreatorWithPayload<string>;
+  wsDisconnect: ActionCreatorWithoutPayload;
+  onOpen: ActionCreatorWithPayload<any>;
+  onClose: ActionCreatorWithoutPayload;
+  onError: ActionCreatorWithPayload<any>;
+  onMessage: ActionCreatorWithPayload<any>;
+};
+
+export interface IOrder {
+  _id: string;
+
+  ingredients: string[];
+
+  status: "done" | "pending" | "created";
+
+  number: number;
+
+  name: string;
+
+  createdAt: string;
+
+  updatedAt: string;
+}
+
+export interface IOrderList {
+  success: boolean;
+  orders: IOrder[];
+  total: number;
+  totalToday: number;
 }

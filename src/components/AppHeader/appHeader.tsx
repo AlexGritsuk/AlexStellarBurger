@@ -15,7 +15,7 @@ const AppHeader = () => {
   return (
     <header className={`pt-4 pb-4 ${style.header}`}>
       <div className={style.container}>
-        <Link to={'/'} className={style.logo}>
+        <Link to={"/"} className={style.logo}>
           <Logo />
         </Link>
         <nav className={style.nav}>
@@ -34,12 +34,12 @@ const AppHeader = () => {
               </NavLink>
             </li>
             <li>
-              <a
+              <NavLink to={'/feed'}
                 className={`text_type_main-default mt-4 mb-4  ml-5 mr-5 ${style.link}`}
               >
                 <ListIcon type={isActive ? "primary" : "secondary"} />
                 <span className={`ml-2`}>Лента заказов</span>
-              </a>
+              </NavLink>
             </li>
 
             <li className={style.left}>

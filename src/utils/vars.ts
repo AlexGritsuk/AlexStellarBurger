@@ -1,7 +1,5 @@
 export const INGREDIENTS = "ingredients";
 
-//API
-
 export const SERVER_CONFIG = {
   BASE_URL: `https://norma.education-services.ru/api/`,
   HEADERS: {

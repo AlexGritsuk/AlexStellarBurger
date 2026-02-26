@@ -19,16 +19,16 @@ export const ConstructorItem = ({ item, index }: Props) => {
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLLIElement>(null);
 
-  // 1. Логика перетаскивания (Drag)
+  
   const [{ isDragging }, dragRef] = useDrag({
     type: "sort_item",
     item: { index },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging(), // Вытаскиваем флаг "тянем ли мы сейчас этот элемент"
+      isDragging: monitor.isDragging(), 
     }),
   });
 
-  // 2. Логика наведения (Drop/Hover)
+
   const [, dropRef] = useDrop({
     accept: "sort_item",
     hover: (draggedItem: { index: number }) => {
@@ -42,7 +42,7 @@ export const ConstructorItem = ({ item, index }: Props) => {
     },
   });
 
-  // Объединяем рефы для одного элемента li
+
   dragRef(dropRef(ref));
 
   return (

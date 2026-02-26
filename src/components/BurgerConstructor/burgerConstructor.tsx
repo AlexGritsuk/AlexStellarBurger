@@ -12,12 +12,17 @@ import { ConstructorItem } from "./constructorItem/constructorItem";
 import { postOrder } from "../../services/slices/asyncThunk/postOrder";
 import Modal from "../modals/modal/modal";
 import OrderDetails from "../modals/orderDetails/orderDetails";
+import { useNavigate } from "react-router-dom";
 
 const BurgerConstructor = () => {
   const dispatch = useAppDispatch();
   const { bun, ingredients } = useAppSelector(
     (state) => state.burgerConstructor
   );
+
+  const navigate = useNavigate();
+
+  const { data: user } = useAppSelector((state) => state.user);
 
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
@@ -32,6 +37,11 @@ const BurgerConstructor = () => {
   });
 
   const handleOrderClick = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
     if (!bun) return;
 
     const orderData = [
@@ -99,7 +109,6 @@ const BurgerConstructor = () => {
         )}
       </div>
 
-      {/* Подвал */}
       <div className={`${style.total} mt-10`}>
         <div className={style.floor}>
           <div className={`${style.price} mr-10`}>

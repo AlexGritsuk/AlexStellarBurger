@@ -1,6 +1,6 @@
 .header {
-  background-color: #1c1c21; // Можно вынести в переменную $background-color
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Добавим немного глубины
+  background-color: #1c1c21;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 
   .container {
     display: flex;
@@ -40,22 +40,22 @@
 }
 
 .left {
-  margin-left: auto; // Личный кабинет улетает вправо
+  margin-left: auto; 
 }
 
 .link {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #8585ad; // Неактивный цвет из дизайна Практикума
+  color: #8585ad; 
   transition: color 0.3s ease;
 
   &:hover {
-    color: #f2f2f3; // Цвет при наведении
+    color: #f2f2f3; 
     cursor: pointer;
   }
 
-  // Если ссылка активна (для будущего роутинга)
+  
   &Active {
     color: #f2f2f3;
   }

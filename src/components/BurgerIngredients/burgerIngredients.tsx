@@ -1,27 +1,22 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useAppDispatch, useAppSelector } from "../../services/store";
-
 import clsx from "clsx";
 import style from "./burgerIngredients.module.scss";
 import Tabs from "../tabs/tabs";
 
 import { TABS, ingredientTabs } from "../../utils/vars";
 import type { IIngredient, TabShape } from "../../utils/types";
-import { fetchIngredients } from "../../services/slices/asyncThunk/fetchIngredients";
 import IngredientsContainer from "./ingredientsContainer/ingredientsContainer";
 import Ingredient from "./ingredient/ingredient";
-import Modal from "../modals/modal/modal";
-import IngredientDetails from "../modals/ingredientDetails/ingredientDetails";
-import {
-  clearCurrentIngredient,
+import { 
   setCurrentIngredient,
   setTab,
 } from "../../services/slices/ingredientsSlice";
 
 const BurgerIngredients = () => {
   const dispatch = useAppDispatch();
-  const { ingredients, isLoading, currentIngredient, currentTab } =
+  const { ingredients, isLoading, currentTab } =
     useAppSelector((state) => state.ingredients);
   const [tabs] = useState<TabShape[]>(ingredientTabs);
   const scrollContainerRef = useRef<HTMLUListElement>(null);
@@ -56,15 +51,8 @@ const BurgerIngredients = () => {
     dispatch(setCurrentIngredient(ingredient));
   };
 
-  const closeModal = () => {
-    dispatch(clearCurrentIngredient());
-  };
 
-  useEffect(() => {
-    if (ingredients.length === 0) {
-      dispatch(fetchIngredients());
-    }
-  }, []);
+
 
   useEffect(() => {
     if (isScrollable) {
@@ -166,12 +154,7 @@ const BurgerIngredients = () => {
             ))}
           </IngredientsContainer>
         </li>
-      </ul>
-      {currentIngredient && (
-        <Modal onClose={closeModal}>
-          <IngredientDetails ingredient={currentIngredient} />
-        </Modal>
-      )}
+      </ul>      
     </section>
   );
 };

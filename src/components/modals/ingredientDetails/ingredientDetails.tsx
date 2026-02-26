@@ -1,12 +1,29 @@
-import type { IIngredient } from "../../../utils/types";
+import { useParams } from "react-router-dom";
 import style from "./ingredientDetails.module.scss";
+import { useAppSelector } from "../../../services/store";
+import { useMemo } from "react";
 
-type TIngredientDetailsProps = {
-  ingredient: IIngredient;
-};
+const IngredientDetails = () => {
+  const { id } = useParams<{ id: string }>();
+  const { ingredients } = useAppSelector((state) => state.ingredients);
+  const ingredient = useMemo(() => {
+    return ingredients.find((item) => item._id === id);
+  }, [ingredients, id]);
 
-const IngredientDetails = ({ ingredient }: TIngredientDetailsProps) => {
-  if (!ingredient) return null;
+
+   if (ingredients.length === 0) {
+     return (
+       <p className="text text_type_main-medium mt-30">
+         Загружаем данные с орбиты...
+       </p>
+     );
+   }
+
+  if (!ingredient) {
+    return (
+      <p className="text text_type_main-medium mt-30">Ингредиент не найден</p>
+    );
+  }
   return (
     <div className={style.container}>
       <img

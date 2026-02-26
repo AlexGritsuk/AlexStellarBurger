@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.content {
+  display: flex;
+  gap: 60px;
+  height: calc(100vh - 250px);
+}
+
+.orders {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-right: 8px;
+}
+
+.stats {
+  width: 580px;
+}
+
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
