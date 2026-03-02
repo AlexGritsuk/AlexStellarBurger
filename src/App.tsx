@@ -2,8 +2,7 @@ import AppHeader from "./components/AppHeader/appHeader";
 import { useEffect } from "react";
 import style from "./App.module.scss";
 import HomePage from "./pages/homePage/homePage";
-import {
-  BrowserRouter as Router,
+import {  
   Routes,
   Route,
   useLocation,

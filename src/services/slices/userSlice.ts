@@ -42,7 +42,7 @@ const usersSlice = createSlice({
           state.data = action.payload.user;
         }
       })
-      .addCase(updateUser.rejected, (state, action) => {
+      .addCase(updateUser.rejected, (_state, action) => {
         console.error("Ошибка обновления пользователя:", action.error);
       });
   },

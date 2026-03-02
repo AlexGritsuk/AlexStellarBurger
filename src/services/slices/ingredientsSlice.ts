@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { IIngredient, TabShape } from "../../utils/types";
+import type { IIngredient } from "../../utils/types";
 import { fetchIngredients } from "./asyncThunk/fetchIngredients";
 
 interface IIngredientsState {

@@ -2,18 +2,16 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../services/store";
 import style from "./orderInfo.module.scss";
 import type { IIngredient } from "../../utils/types";
 
-const OrderInfo = () => {
-  const { id } = useParams(); // Достаем ID из URL
+const OrderInfo = () => {  
   const { ingredients: allIngredients } = useAppSelector(
     (state) => state.ingredients
   );
 
-  // В будущем данные придут из WebSocket. Пока имитируем:
+ 
   const order = {
     number: "#034536",
     name: "Black Hole Spicy Burger",
@@ -25,7 +23,7 @@ const OrderInfo = () => {
     count: number;
   }
 
-  // Группируем ингредиенты, чтобы посчитать количество (например, 2 соуса)
+
   const orderIngredients = order.ingredients.reduce(
     (acc: Record<string, IOrderIngredient>, id) => {
       const item = allIngredients.find((i) => i._id === id);
